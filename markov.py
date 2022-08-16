@@ -54,19 +54,29 @@ def make_chains(input_text):
 
     return chains
 
-print(make_chains(open_and_read_file('green-eggs.txt')))
+# print(make_chains(open_and_read_file('green-eggs.txt')))
 
 def make_text(chains):
     """Return text from chains."""
 
     words = []
 
-    # your code goes here
+    chains_keys_list = list(chains.keys())
+    chains_key = choice(chains_keys_list[:])
+    while not chains_key[0].istitle():
+        chains_key = choice(chains_keys_list[:])
+
+    words.extend(chains_key)
+
+    while chains_key in chains:
+        next_word = choice(chains.get(chains_key))
+        words.append(next_word)
+        chains_key = (words[-2], words[-1])
 
     return ' '.join(words)
 
 
-input_path = 'green-eggs.txt'
+input_path = sys.argv[1]
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
